@@ -2,15 +2,6 @@ CREATE DATABASE IF NOT EXISTS stocks;
 
 USE stocks;
 
-CREATE TABLE `users` (
-  `user_id` int unsigned NOT NULL AUTO_INCREMENT,
-  `email` varchar(255) NOT NULL,
-  `password` varchar(255) NOT NULL,
-  `access_token` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`user_id`),
-  UNIQUE KEY `users_UN` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8_unicode_ci;
-
 CREATE TABLE `stock_outlook` (
  `id` int unsigned NOT NULL AUTO_INCREMENT,
  `symbol_id` smallint unsigned NOT NULL,

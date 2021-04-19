@@ -2,24 +2,20 @@
 
 error_reporting(E_ALL);
 
-// Main
 use Phalcon\Loader;
 use Phalcon\Mvc\Micro\Collection as MicroCollection;
-use Cognitiven\Portfolio\Application;
+use Cognitiven\Rest\Application;
 
-// Services
-use Cognitiven\Portfolio\Services\ResponseService;
-// Endpoints
-// Stocks
-use Cognitiven\Portfolio\Endpoints\StockOutlookEndpoint;
+use Cognitiven\Rest\Services\ResponseService;
+use Cognitiven\Rest\Endpoints\StockOutlookEndpoint;
 
 try {
     $loader = new Loader();
     $loader ->registerNamespaces(
         [
             'Cognitiven\Rest' => '../app/',
-            'Cognitiven\Portfolio\Services' => '../app/services/',
-            'Cognitiven\Portfolio\Endpoints' => '../app/endpoints/'
+            'Cognitiven\Rest\Services' => '../app/services/',
+            'Cognitiven\Rest\Endpoints' => '../app/endpoints/'
         ]
     )->register();
 
@@ -31,15 +27,10 @@ try {
     $stockOutlook
         ->setHandler(StockOutlookEndpoint::class)
         ->setLazy(true)
-        ->setPrefix('/api/v1/stock/{stockId}/outlook')
+        ->setPrefix('/api/v1/stocks')
+        ->get('/{stockId}/outlook', 'get');
 
-
-    $app->mount($docs);
-    $app->mount($login);
-    $app->mount($register);
-    $app->mount($portfolios);
-    $app->mount($stocks);
-    $app->mount($sectors);
+    $app->mount($stockOutlook);
 
     $app->notFound(function () use ($app) {
         return ResponseService::buildJSONResponse(
